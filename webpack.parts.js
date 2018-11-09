@@ -1,3 +1,5 @@
+const PurifyCSSPlugin = require("purifycss-webpack");
+
 exports.devServer = ({
     host,
     port
@@ -9,6 +11,25 @@ exports.devServer = ({
         open: true,
         overlay: true,
     },
+});
+
+exports.loadImages = ({ include, exclude, options } = {}) => ({
+  module: {
+    rules: [
+      {
+        test: /\.(png|jpg)$/,
+        include,
+        exclude,
+        use: {
+          loader: "url-loader",
+          options,
+        },
+      },
+    ],
+  },
+});
+exports.purifyCSS = ({ paths }) => ({
+  plugins: [new PurifyCSSPlugin({ paths })],
 });
 
 exports.loadCSS = ({
